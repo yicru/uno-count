@@ -4,6 +4,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { playersListState } from '../store'
 import { useForm } from 'react-hook-form'
 import { ErrorMessage } from '../components/ErrorMessage'
+import { useRouter } from 'next/router'
 
 type FormData = {
   playerName: string
@@ -12,6 +13,8 @@ type FormData = {
 export const Home: NextPage = () => {
   const players = useRecoilValue(playersListState)
   const setPlayers = useSetRecoilState(playersListState)
+
+  const router = useRouter()
 
   const { register, handleSubmit, errors, setValue } = useForm<FormData>()
 
@@ -24,6 +27,10 @@ export const Home: NextPage = () => {
   const removePlayer = (targetIndex) => {
     const newPlayers = players.filter((_, index) => index !== targetIndex)
     setPlayers(newPlayers)
+  }
+
+  const startGame = () => {
+    router.push('/game')
   }
 
   return (
@@ -63,7 +70,10 @@ export const Home: NextPage = () => {
           ))}
         </ul>
         {players.length > 1 && (
-          <button className="btn bg-gradient-to-r from-teal-400 to-blue-500 text-white mt-5">
+          <button
+            className="btn bg-gradient-to-r from-teal-400 to-blue-500 text-white mt-5"
+            onClick={startGame}
+          >
             UNOを開始
           </button>
         )}

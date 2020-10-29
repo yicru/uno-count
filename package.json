@@ -29,6 +29,7 @@
     "next": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^6.9.6",
     "recoil": "^0.0.13"
   },
   "devDependencies": {

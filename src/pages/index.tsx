@@ -1,30 +1,23 @@
 import { NextPage } from 'next'
-import { ChangeEvent, FormEvent, useState } from 'react'
 import { CloseCircleIcon } from '../components/icons/CloseCircleIcon'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { playersListState } from '../store'
+import { useForm } from 'react-hook-form'
+
+type FormData = {
+  playerName: string
+}
 
 export const Home: NextPage = () => {
-  const [playerName, setPlayerName] = useState('')
-
   const players = useRecoilValue(playersListState)
   const setPlayers = useSetRecoilState(playersListState)
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPlayerName(e.target.value)
-  }
+  const { register, handleSubmit, errors, setValue } = useForm<FormData>()
 
-  const addPlayer = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    if (!playerName) {
-      alert('プレイヤー名を入力してください')
-      return
-    }
-
-    const newPlayers = [...players, playerName]
+  const addPlayer = (form: FormData) => {
+    const newPlayers = [...players, form.playerName]
     setPlayers(newPlayers)
-    setPlayerName('')
+    setValue('playerName', '')
   }
 
   const removePlayer = (targetIndex) => {
@@ -37,15 +30,18 @@ export const Home: NextPage = () => {
       <div className="text-center py-10">
         <h1 className="text-6xl font-bold">UNO COUNTER</h1>
       </div>
-      <form className="text-center" onSubmit={addPlayer}>
+      <form className="text-center" onSubmit={handleSubmit(addPlayer)}>
         <label className="block">
           <input
             type="text"
             className="form-input mt-1 block w-full"
-            value={playerName}
-            onChange={handleOnChange}
+            name="playerName"
+            ref={register({ required: '必須です' })}
           />
         </label>
+        <p className="text-red-600 text-sm font-bold mt-2">
+          {errors?.playerName?.message}
+        </p>
         <button
           type="submit"
           className="btn bg-gradient-to-r from-teal-400 to-blue-500 text-white mt-5"
@@ -53,7 +49,7 @@ export const Home: NextPage = () => {
           プレイヤーを追加
         </button>
       </form>
-      <div className="mt-20 text-center">
+      <div className="py-20 text-center">
         <ul>
           {players.map((player, index) => (
             <li

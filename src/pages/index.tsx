@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import { CloseCircleIcon } from '../components/icons/CloseCircleIcon'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { playersListState } from '../store'
+import { playersListState, scoresListState } from '../store'
 import { useForm } from 'react-hook-form'
 import { ErrorMessage } from '../components/ErrorMessage'
 import { useRouter } from 'next/router'
@@ -13,6 +13,7 @@ type FormData = {
 export const Home: NextPage = () => {
   const players = useRecoilValue(playersListState)
   const setPlayers = useSetRecoilState(playersListState)
+  const setScores = useSetRecoilState(scoresListState)
 
   const router = useRouter()
 
@@ -30,7 +31,9 @@ export const Home: NextPage = () => {
   }
 
   const startGame = () => {
-    router.push('/game')
+    const scoresMap = new Map(players.map((player) => [player, 0]))
+    setScores([Object.fromEntries(scoresMap)])
+    router.push('/score')
   }
 
   return (

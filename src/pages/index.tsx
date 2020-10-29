@@ -1,10 +1,14 @@
 import { NextPage } from 'next'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { CloseCircleIcon } from '../components/icons/CloseCircleIcon'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { playersListState } from '../store'
 
 export const Home: NextPage = () => {
-  const [players, setPlayers] = useState<string[]>([])
   const [playerName, setPlayerName] = useState('')
+
+  const players = useRecoilValue(playersListState)
+  const setPlayers = useSetRecoilState(playersListState)
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPlayerName(e.target.value)

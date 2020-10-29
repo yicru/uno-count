@@ -3,6 +3,7 @@ import { CloseCircleIcon } from '../components/icons/CloseCircleIcon'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { playersListState } from '../store'
 import { useForm } from 'react-hook-form'
+import { ErrorMessage } from '../components/ErrorMessage'
 
 type FormData = {
   playerName: string
@@ -39,9 +40,7 @@ export const Home: NextPage = () => {
             ref={register({ required: '必須です' })}
           />
         </label>
-        <p className="text-red-600 text-sm font-bold mt-2">
-          {errors?.playerName?.message}
-        </p>
+        <ErrorMessage message={errors?.playerName?.message} className="mt-2" />
         <button
           type="submit"
           className="btn bg-gradient-to-r from-teal-400 to-blue-500 text-white mt-5"

@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "clsx": "^1.1.1",
+    "lodash.clonedeep": "^4.5.0",
     "next": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

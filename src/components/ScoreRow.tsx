@@ -2,21 +2,14 @@ import React, { ChangeEvent } from 'react'
 import { useRecoilValue } from 'recoil'
 import { playersListState } from '../store'
 import { IScore } from '../interfaces/score'
-import { CheckCircleIcon } from './icons/CheckCircleIcon'
 
 type Props = {
   isLast: boolean
   score: IScore
   onChangeScore: (score: IScore) => void
-  onEnd: () => void
 }
 
-export const ScoreRow: React.FC<Props> = ({
-  isLast,
-  score,
-  onChangeScore,
-  onEnd,
-}) => {
+export const ScoreRow: React.FC<Props> = ({ isLast, score, onChangeScore }) => {
   const players = useRecoilValue(playersListState)
 
   const handleOnChangeScore = (
@@ -46,11 +39,6 @@ export const ScoreRow: React.FC<Props> = ({
           </label>
         </td>
       ))}
-      <td className="text-center">
-        <button className="py-1" onClick={onEnd}>
-          <CheckCircleIcon className="w-10 h-10" />
-        </button>
-      </td>
     </tr>
   )
 }
